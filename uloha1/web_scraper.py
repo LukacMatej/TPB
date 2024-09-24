@@ -44,7 +44,7 @@ def scrape_url_articles(url):
     """Scrapes article URLs from the archive page."""
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
     driver.get(url)
-    time.sleep(0.5)  # Wait for the page to load
+    time.sleep(2)  # Wait for the page to load
     try:
         # Accept cookies
         link = WebDriverWait(driver, 20).until(
@@ -67,7 +67,7 @@ def scrape_article(url):
     """Scrapes data from a single article."""
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
     driver.get(url)
-    time.sleep(0.5)  # Wait for the page to load
+    time.sleep(2)  # Wait for the page to load
     try:
         link = WebDriverWait(driver, 20).until(
             EC.element_to_be_clickable((By.XPATH, '//a[contains(text(), "Souhlasím")]'))
@@ -118,10 +118,10 @@ def scrape_in_parallel(urls, max_threads, scrape_func):
 
 if __name__ == '__main__':
     start_time = time.time()
-    MAX_THREADS = 5  # Adjust according to system capability
+    MAX_THREADS = 6  # Adjust according to system capability
 
     # Step 1: Scrape article URLs from multiple archive pages
-    archive_urls = [f"https://www.idnes.cz/sport/archiv/{index}" for index in range(1, 10)]
+    archive_urls = [f"https://www.idnes.cz/sport/archiv/{index}" for index in range(1, 2000)]
     all_articles = scrape_in_parallel(archive_urls, MAX_THREADS, scrape_url_articles)
     time.sleep(5)
     # Flatten the list of article URLs
